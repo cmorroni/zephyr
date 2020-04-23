@@ -5,8 +5,6 @@
 
 source "subsys/bluetooth/Kconfig"
 
-source "subsys/cpp/Kconfig"
-
 source "subsys/debug/Kconfig"
 
 source "subsys/fs/Kconfig"
