@@ -32,5 +32,3 @@ source "subsys/testsuite/Kconfig"
 source "subsys/tracing/Kconfig"
 
 source "subsys/fb/Kconfig"
-
-source "subsys/jwt/Kconfig"
