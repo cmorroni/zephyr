@@ -11,8 +11,6 @@ source "subsys/cpp/Kconfig"
 
 source "subsys/debug/Kconfig"
 
-source "subsys/disk/Kconfig"
-
 source "subsys/fs/Kconfig"
 
 source "subsys/logging/Kconfig"
