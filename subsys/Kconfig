@@ -19,8 +19,6 @@ source "subsys/net/Kconfig"
 
 source "subsys/shell/Kconfig"
 
-source "subsys/dfu/Kconfig"
-
 source "subsys/random/Kconfig"
 
 source "subsys/settings/Kconfig"
