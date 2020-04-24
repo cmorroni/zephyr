@@ -41,13 +41,6 @@ static struct flash_area const *get_flash_area_from_id(int idx)
 	return NULL;
 }
 
-void flash_area_foreach(flash_area_cb_t user_cb, void *user_data)
-{
-	for (int i = 0; i < flash_map_entries; i++) {
-		user_cb(&flash_map[i], user_data);
-	}
-}
-
 int flash_area_open(u8_t id, const struct flash_area **fap)
 {
 	const struct flash_area *area;
@@ -63,17 +56,6 @@ int flash_area_open(u8_t id, const struct flash_area **fap)
 
 	*fap = area;
 	return 0;
-}
-
-void flash_area_close(const struct flash_area *fa)
-{
-	/* nothing to do for now */
-}
-
-static inline bool is_in_flash_area_bounds(const struct flash_area *fa,
-					   off_t off, size_t len)
-{
-	return (off <= fa->fa_size && off + len <= fa->fa_size);
 }
 
 #if defined(CONFIG_FLASH_PAGE_LAYOUT)
@@ -176,89 +158,3 @@ int flash_area_get_sectors(int idx, u32_t *cnt, struct flash_sector *ret)
 	return flash_area_layout(idx, cnt, ret, get_sectors_cb, &data);
 }
 #endif /* CONFIG_FLASH_PAGE_LAYOUT */
-
-int flash_area_read(const struct flash_area *fa, off_t off, void *dst,
-		    size_t len)
-{
-	struct device *dev;
-
-	if (!is_in_flash_area_bounds(fa, off, len)) {
-		return -EINVAL;
-	}
-
-	dev = device_get_binding(fa->fa_dev_name);
-
-	return flash_read(dev, fa->fa_off + off, dst, len);
-}
-
-int flash_area_write(const struct flash_area *fa, off_t off, const void *src,
-		     size_t len)
-{
-	struct device *flash_dev;
-	int rc;
-
-	if (!is_in_flash_area_bounds(fa, off, len)) {
-		return -EINVAL;
-	}
-
-	flash_dev = device_get_binding(fa->fa_dev_name);
-
-	rc = flash_write_protection_set(flash_dev, false);
-	if (rc) {
-		return rc;
-	}
-
-	rc = flash_write(flash_dev, fa->fa_off + off, (void *)src, len);
-
-	/* Ignore errors here - this does not affect write operation */
-	(void) flash_write_protection_set(flash_dev, true);
-
-	return rc;
-}
-
-int flash_area_erase(const struct flash_area *fa, off_t off, size_t len)
-{
-	struct device *flash_dev;
-	int rc;
-
-	if (!is_in_flash_area_bounds(fa, off, len)) {
-		return -EINVAL;
-	}
-
-	flash_dev = device_get_binding(fa->fa_dev_name);
-
-	rc = flash_write_protection_set(flash_dev, false);
-	if (rc) {
-		return rc;
-	}
-
-	rc = flash_erase(flash_dev, fa->fa_off + off, len);
-
-	/* Ignore errors here - this does not affect write operation */
-	(void) flash_write_protection_set(flash_dev, true);
-
-	return rc;
-}
-
-u8_t flash_area_align(const struct flash_area *fa)
-{
-	struct device *dev;
-
-	dev = device_get_binding(fa->fa_dev_name);
-
-	return flash_get_write_block_size(dev);
-}
-
-int flash_area_has_driver(const struct flash_area *fa)
-{
-	if (device_get_binding(fa->fa_dev_name) == NULL) {
-		return -ENODEV;
-	}
-
-	return 1;
-}
-
-struct device *flash_area_get_device(const struct flash_area *fa)
-{
-	return device_get_binding(fa->fa_dev_name);
-}
