@@ -9,22 +9,15 @@ add_library(kernel
   idle.c
   init.c
   kheap.c
-  mailbox.c
   mem_slab.c
   mempool.c
-  msg_q.c
-  mutex.c
-  pipes.c
   queue.c
   sched.c
   sem.c
-  stack.c
   system_work_q.c
   thread.c
   thread_abort.c
-  version.c
   work_q.c
-  smp.c
   )
 
 # Kernel files has the macro __ZEPHYR_SUPERVISOR__ set so that it
