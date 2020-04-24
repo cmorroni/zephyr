@@ -11,6 +11,8 @@ add_library(kernel
   kheap.c
   mem_slab.c
   mempool.c
+  msg_q.c
+  mutex.c
   queue.c
   sched.c
   sem.c
