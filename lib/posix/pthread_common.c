@@ -5,7 +5,7 @@
  */
 
 #include <kernel.h>
-#include <ksched.h>
+#include <kernel_internal.h>
 #include <wait_q.h>
 #include <posix/time.h>
 

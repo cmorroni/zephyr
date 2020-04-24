@@ -4,7 +4,7 @@
  */
 
 #include <kernel.h>
-#include <ksched.h>
+#include <kernel_internal.h>
 #include <kernel_structs.h>
 #include <kernel_internal.h>
 #include <offsets_short.h>

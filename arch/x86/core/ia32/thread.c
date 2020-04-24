@@ -13,7 +13,7 @@
  */
 
 #include <kernel.h>
-#include <ksched.h>
+#include <kernel_internal.h>
 #include <arch/x86/mmustructs.h>
 
 /* forward declaration */

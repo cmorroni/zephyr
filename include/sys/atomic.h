@@ -60,35 +60,6 @@ extern bool atomic_cas(atomic_t *target, atomic_val_t old_value,
 #endif
 
 /**
- * @brief Atomic compare-and-set with pointer values
- *
- * This routine performs an atomic compare-and-set on @a target. If the current
- * value of @a target equals @a old_value, @a target is set to @a new_value.
- * If the current value of @a target does not equal @a old_value, @a target
- * is left unchanged.
- *
- * @param target Address of atomic variable.
- * @param old_value Original value to compare against.
- * @param new_value New value to store.
- * @return true if @a new_value is written, false otherwise.
- */
-#ifdef CONFIG_ATOMIC_OPERATIONS_BUILTIN
-static inline bool atomic_ptr_cas(atomic_ptr_t *target, void *old_value,
-				  void *new_value)
-{
-	return __atomic_compare_exchange_n(target, &old_value, new_value,
-					   0, __ATOMIC_SEQ_CST,
-					   __ATOMIC_SEQ_CST);
-}
-#elif defined(CONFIG_ATOMIC_OPERATIONS_C)
-__syscall bool atomic_ptr_cas(atomic_ptr_t *target, void *old_value,
-			      void *new_value);
-#else
-extern bool atomic_ptr_cas(atomic_ptr_t *target, void *old_value,
-			   void *new_value);
-#endif
-
-/**
  *
  * @brief Atomic addition.
  *
@@ -191,25 +162,6 @@ extern atomic_val_t atomic_get(const atomic_t *target);
 
 /**
  *
- * @brief Atomic get a pointer value
- *
- * This routine performs an atomic read on @a target.
- *
- * @param target Address of pointer variable.
- *
- * @return Value of @a target.
- */
-#ifdef CONFIG_ATOMIC_OPERATIONS_BUILTIN
-static inline void *atomic_ptr_get(const atomic_ptr_t *target)
-{
-	return __atomic_load_n(target, __ATOMIC_SEQ_CST);
-}
-#else
-extern void *atomic_ptr_get(const atomic_ptr_t *target);
-#endif
-
-/**
- *
  * @brief Atomic get-and-set.
  *
  * This routine atomically sets @a target to @a value and returns
@@ -237,29 +189,6 @@ extern atomic_val_t atomic_set(atomic_t *target, atomic_val_t value);
 
 /**
  *
- * @brief Atomic get-and-set for pointer values
- *
- * This routine atomically sets @a target to @a value and returns
- * the previous value of @a target.
- *
- * @param target Address of atomic variable.
- * @param value Value to write to @a target.
- *
- * @return Previous value of @a target.
- */
-#ifdef CONFIG_ATOMIC_OPERATIONS_BUILTIN
-static inline void *atomic_ptr_set(atomic_ptr_t *target, void *value)
-{
-	return __atomic_exchange_n(target, value, __ATOMIC_SEQ_CST);
-}
-#elif defined(CONFIG_ATOMIC_OPERATIONS_C)
-__syscall void *atomic_ptr_set(atomic_ptr_t *target, void *value);
-#else
-extern void *atomic_ptr_set(atomic_ptr_t *target, void *value);
-#endif
-
-/**
- *
  * @brief Atomic clear.
  *
  * This routine atomically sets @a target to zero and returns its previous
@@ -276,27 +205,6 @@ static inline atomic_val_t atomic_clear(atomic_t *target)
 }
 #else
 extern atomic_val_t atomic_clear(atomic_t *target);
-#endif
-
-/**
- *
- * @brief Atomic clear of a pointer value
- *
- * This routine atomically sets @a target to zero and returns its previous
- * value. (Hence, it is equivalent to atomic_set(target, 0).)
- *
- * @param target Address of atomic variable.
- *
- * @return Previous value of @a target.
- */
-#if defined(CONFIG_ATOMIC_OPERATIONS_BUILTIN) || \
-	defined (CONFIG_ATOMIC_OPERATIONS_C)
-static inline void *atomic_ptr_clear(atomic_ptr_t *target)
-{
-	return atomic_ptr_set(target, NULL);
-}
-#else
-extern void *atomic_ptr_clear(atomic_ptr_t *target);
 #endif
 
 /**
@@ -325,29 +233,6 @@ extern atomic_val_t atomic_or(atomic_t *target, atomic_val_t value);
 
 /**
  *
- * @brief Atomic bitwise exclusive OR (XOR).
- *
- * This routine atomically sets @a target to the bitwise exclusive OR (XOR) of
- * @a target and @a value.
- *
- * @param target Address of atomic variable.
- * @param value Value to XOR
- *
- * @return Previous value of @a target.
- */
-#ifdef CONFIG_ATOMIC_OPERATIONS_BUILTIN
-static inline atomic_val_t atomic_xor(atomic_t *target, atomic_val_t value)
-{
-	return __atomic_fetch_xor(target, value, __ATOMIC_SEQ_CST);
-}
-#elif defined(CONFIG_ATOMIC_OPERATIONS_C)
-__syscall atomic_val_t atomic_xor(atomic_t *target, atomic_val_t value);
-#else
-extern atomic_val_t atomic_xor(atomic_t *target, atomic_val_t value);
-#endif
-
-/**
- *
  * @brief Atomic bitwise AND.
  *
  * This routine atomically sets @a target to the bitwise AND of @a target
@@ -367,29 +252,6 @@ static inline atomic_val_t atomic_and(atomic_t *target, atomic_val_t value)
 __syscall atomic_val_t atomic_and(atomic_t *target, atomic_val_t value);
 #else
 extern atomic_val_t atomic_and(atomic_t *target, atomic_val_t value);
-#endif
-
-/**
- *
- * @brief Atomic bitwise NAND.
- *
- * This routine atomically sets @a target to the bitwise NAND of @a target
- * and @a value. (This operation is equivalent to target = ~(target & value).)
- *
- * @param target Address of atomic variable.
- * @param value Value to NAND.
- *
- * @return Previous value of @a target.
- */
-#ifdef CONFIG_ATOMIC_OPERATIONS_BUILTIN
-static inline atomic_val_t atomic_nand(atomic_t *target, atomic_val_t value)
-{
-	return __atomic_fetch_nand(target, value, __ATOMIC_SEQ_CST);
-}
-#elif defined(CONFIG_ATOMIC_OPERATIONS_C)
-__syscall atomic_val_t atomic_nand(atomic_t *target, atomic_val_t value);
-#else
-extern atomic_val_t atomic_nand(atomic_t *target, atomic_val_t value);
 #endif
 
 

@@ -6,7 +6,7 @@
 
 #include <kernel.h>
 #include <posix/pthread.h>
-#include <ksched.h>
+#include <kernel_internal.h>
 #include <wait_q.h>
 
 int pthread_barrier_wait(pthread_barrier_t *b)

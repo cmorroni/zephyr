@@ -4,7 +4,7 @@
  */
 
 #include <kernel.h>
-#include <ksched.h>
+#include <kernel_internal.h>
 #include <arch/cpu.h>
 #include <kernel_arch_data.h>
 #include <drivers/interrupt_controller/sysapic.h>
