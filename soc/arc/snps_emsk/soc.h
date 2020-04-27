@@ -40,7 +40,6 @@
 #ifndef _ASMLANGUAGE
 
 #include <sys/util.h>
-#include <random/rand32.h>
 
 #define INT_ENABLE_ARC				~(0x00000001 << 8)
 #define INT_ENABLE_ARC_BIT_POS			(8)

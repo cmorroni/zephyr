@@ -14,9 +14,7 @@
 #include <arch/cpu.h>
 #include <sys/util.h>
 #include <toolchain.h>
-#include <cache.h>
 #include <stdbool.h>
-#include <cache.h>
 
 /*
  * these functions are defined in cache_s.S

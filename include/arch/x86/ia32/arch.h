@@ -14,10 +14,8 @@
 #ifndef ZEPHYR_INCLUDE_ARCH_X86_IA32_ARCH_H_
 #define ZEPHYR_INCLUDE_ARCH_X86_IA32_ARCH_H_
 
-#include "sys_io.h"
 #include <stdbool.h>
 #include <kernel_structs.h>
-#include <arch/common/ffs.h>
 #include <sys/util.h>
 #include <arch/x86/ia32/thread.h>
 #include <arch/x86/ia32/syscall.h>

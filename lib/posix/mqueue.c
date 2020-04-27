@@ -7,7 +7,6 @@
 #include <errno.h>
 #include <string.h>
 #include <sys/atomic.h>
-#include <posix/time.h>
 #include <posix/mqueue.h>
 
 typedef struct mqueue_object {

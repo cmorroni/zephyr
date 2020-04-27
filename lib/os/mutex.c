@@ -6,7 +6,6 @@
 
 #include <kernel.h>
 #include <sys/mutex.h>
-#include <syscall_handler.h>
 #include <kernel_structs.h>
 
 static struct k_mutex *get_k_mutex(struct sys_mutex *mutex)

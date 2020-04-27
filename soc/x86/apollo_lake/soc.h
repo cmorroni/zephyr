@@ -20,7 +20,6 @@
 
 #ifndef _ASMLANGUAGE
 #include <device.h>
-#include <random/rand32.h>
 #endif
 
 #ifdef CONFIG_GPIO_INTEL_APL

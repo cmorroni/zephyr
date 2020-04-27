@@ -30,7 +30,6 @@
 
 
 #include <sys/util.h>
-#include <random/rand32.h>
 
 /* PINMUX IO Hardware Functions */
 #define HSDK_PINMUX_FUNS		8

@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <sys/atomic.h>
 #include <kernel_internal.h>
-#include <wait_q.h>
+#include <kernel.h>
 #include <posix/pthread.h>
 #include <sys/slist.h>
 

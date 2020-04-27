@@ -1517,12 +1517,4 @@
 /** @internal helper for DT_DASH(): prepends _ to a name */
 #define DT_DASH_PREFIX(name) _##name
 
-/* have these last so the have access to all previously defined macros */
-#include <devicetree/adc.h>
-#include <devicetree/clocks.h>
-#include <devicetree/gpio.h>
-#include <devicetree/spi.h>
-#include <devicetree/dma.h>
-#include <devicetree/zephyr.h>
-
 #endif /* DEVICETREE_H */

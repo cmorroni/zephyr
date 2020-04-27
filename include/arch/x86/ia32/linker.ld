@@ -105,8 +105,6 @@ SECTIONS
 	KEEP(*(.openocd_dbg))
 	KEEP(*(".openocd_dbg.*"))
 
-#include <linker/kobject-text.ld>
-
 	MMU_PAGE_ALIGN
 	} GROUP_LINK_IN(ROMABLE_REGION)
 
@@ -159,11 +157,7 @@ SECTIONS
 /* Located in project source directory */
 #include <custom-rodata.ld>
 #endif
-
-#include <linker/kobject-rom.ld>
 	} GROUP_LINK_IN(ROMABLE_REGION)
-
-#include <linker/cplusplus-rom.ld>
 
 	MMU_PAGE_ALIGN
 	/* ROM ends here, position counter will now be in RAM areas */
@@ -351,9 +345,6 @@ SECTIONS
 	__data_rom_start = LOADADDR(_DATA_SECTION_NAME);
 
 #include <linker/common-ram.ld>
-
-#include <linker/kobject.ld>
-#include <linker/cplusplus-ram.ld>
 
 	MMU_PAGE_ALIGN
 	__data_ram_end = .;

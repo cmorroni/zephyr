@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <drivers/timer/system_timer.h>
+#include <device.h>
 
 u32_t z_timer_cycle_get_32(void)
 {

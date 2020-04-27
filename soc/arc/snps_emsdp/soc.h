@@ -25,7 +25,6 @@
 #ifndef _ASMLANGUAGE
 
 #include <sys/util.h>
-#include <random/rand32.h>
 
 #endif /* !_ASMLANGUAGE */
 

@@ -12,18 +12,6 @@
 extern "C" {
 #endif
 
-#ifndef SIGEV_NONE
-#define SIGEV_NONE 1
-#endif
-
-#ifndef SIGEV_SIGNAL
-#define SIGEV_SIGNAL 2
-#endif
-
-#ifndef SIGEV_THREAD
-#define SIGEV_THREAD 3
-#endif
-
 typedef union sigval {
 	int sival_int;
 	void *sival_ptr;

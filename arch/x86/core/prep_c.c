@@ -6,7 +6,6 @@
 
 #include <kernel.h>
 #include <kernel_internal.h>
-#include <arch/x86/acpi.h>
 #include <arch/x86/multiboot.h>
 
 extern FUNC_NORETURN void z_cstart(void);

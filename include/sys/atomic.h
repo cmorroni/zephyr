@@ -42,22 +42,11 @@ typedef void *atomic_ptr_t;
  * @param new_value New value to store.
  * @return true if @a new_value is written, false otherwise.
  */
-#ifdef CONFIG_ATOMIC_OPERATIONS_BUILTIN
 static inline bool atomic_cas(atomic_t *target, atomic_val_t old_value,
 			  atomic_val_t new_value)
 {
-	return __atomic_compare_exchange_n(target, &old_value, new_value,
-					   0, __ATOMIC_SEQ_CST,
-					   __ATOMIC_SEQ_CST);
+	return 0;
 }
-#elif defined(CONFIG_ATOMIC_OPERATIONS_C)
-__syscall bool atomic_cas(atomic_t *target, atomic_val_t old_value,
-			 atomic_val_t new_value);
-
-#else
-extern bool atomic_cas(atomic_t *target, atomic_val_t old_value,
-		      atomic_val_t new_value);
-#endif
 
 /**
  *
@@ -70,16 +59,10 @@ extern bool atomic_cas(atomic_t *target, atomic_val_t old_value,
  *
  * @return Previous value of @a target.
  */
-#ifdef CONFIG_ATOMIC_OPERATIONS_BUILTIN
 static inline atomic_val_t atomic_add(atomic_t *target, atomic_val_t value)
 {
-	return __atomic_fetch_add(target, value, __ATOMIC_SEQ_CST);
+	return 0;
 }
-#elif defined(CONFIG_ATOMIC_OPERATIONS_C)
-__syscall atomic_val_t atomic_add(atomic_t *target, atomic_val_t value);
-#else
-extern atomic_val_t atomic_add(atomic_t *target, atomic_val_t value);
-#endif
 
 /**
  *
@@ -92,16 +75,10 @@ extern atomic_val_t atomic_add(atomic_t *target, atomic_val_t value);
  *
  * @return Previous value of @a target.
  */
-#ifdef CONFIG_ATOMIC_OPERATIONS_BUILTIN
 static inline atomic_val_t atomic_sub(atomic_t *target, atomic_val_t value)
 {
-	return __atomic_fetch_sub(target, value, __ATOMIC_SEQ_CST);
+	return 0;
 }
-#elif defined(CONFIG_ATOMIC_OPERATIONS_C)
-__syscall atomic_val_t atomic_sub(atomic_t *target, atomic_val_t value);
-#else
-extern atomic_val_t atomic_sub(atomic_t *target, atomic_val_t value);
-#endif
 
 /**
  *
@@ -113,14 +90,10 @@ extern atomic_val_t atomic_sub(atomic_t *target, atomic_val_t value);
  *
  * @return Previous value of @a target.
  */
-#if defined(CONFIG_ATOMIC_OPERATIONS_BUILTIN) || defined (CONFIG_ATOMIC_OPERATIONS_C)
 static inline atomic_val_t atomic_inc(atomic_t *target)
 {
-	return atomic_add(target, 1);
+	return 0;
 }
-#else
-extern atomic_val_t atomic_inc(atomic_t *target);
-#endif
 
 /**
  *
@@ -132,14 +105,10 @@ extern atomic_val_t atomic_inc(atomic_t *target);
  *
  * @return Previous value of @a target.
  */
-#if defined(CONFIG_ATOMIC_OPERATIONS_BUILTIN) || defined (CONFIG_ATOMIC_OPERATIONS_C)
 static inline atomic_val_t atomic_dec(atomic_t *target)
 {
-	return atomic_sub(target, 1);
+	return 0;
 }
-#else
-extern atomic_val_t atomic_dec(atomic_t *target);
-#endif
 
 /**
  *
@@ -151,14 +120,10 @@ extern atomic_val_t atomic_dec(atomic_t *target);
  *
  * @return Value of @a target.
  */
-#ifdef CONFIG_ATOMIC_OPERATIONS_BUILTIN
 static inline atomic_val_t atomic_get(const atomic_t *target)
 {
-	return __atomic_load_n(target, __ATOMIC_SEQ_CST);
+	return 0;
 }
-#else
-extern atomic_val_t atomic_get(const atomic_t *target);
-#endif
 
 /**
  *
@@ -172,20 +137,14 @@ extern atomic_val_t atomic_get(const atomic_t *target);
  *
  * @return Previous value of @a target.
  */
-#ifdef CONFIG_ATOMIC_OPERATIONS_BUILTIN
 static inline atomic_val_t atomic_set(atomic_t *target, atomic_val_t value)
 {
 	/* This builtin, as described by Intel, is not a traditional
 	 * test-and-set operation, but rather an atomic exchange operation. It
 	 * writes value into *ptr, and returns the previous contents of *ptr.
 	 */
-	return __atomic_exchange_n(target, value, __ATOMIC_SEQ_CST);
+	return 0;
 }
-#elif defined(CONFIG_ATOMIC_OPERATIONS_C)
-__syscall atomic_val_t atomic_set(atomic_t *target, atomic_val_t value);
-#else
-extern atomic_val_t atomic_set(atomic_t *target, atomic_val_t value);
-#endif
 
 /**
  *
@@ -198,14 +157,10 @@ extern atomic_val_t atomic_set(atomic_t *target, atomic_val_t value);
  *
  * @return Previous value of @a target.
  */
-#if defined(CONFIG_ATOMIC_OPERATIONS_BUILTIN) || defined (CONFIG_ATOMIC_OPERATIONS_C)
 static inline atomic_val_t atomic_clear(atomic_t *target)
 {
-	return atomic_set(target, 0);
+	return 0;
 }
-#else
-extern atomic_val_t atomic_clear(atomic_t *target);
-#endif
 
 /**
  *
@@ -219,17 +174,10 @@ extern atomic_val_t atomic_clear(atomic_t *target);
  *
  * @return Previous value of @a target.
  */
-#ifdef CONFIG_ATOMIC_OPERATIONS_BUILTIN
 static inline atomic_val_t atomic_or(atomic_t *target, atomic_val_t value)
 {
-	return __atomic_fetch_or(target, value, __ATOMIC_SEQ_CST);
+	return 0;
 }
-#elif defined(CONFIG_ATOMIC_OPERATIONS_C)
-__syscall atomic_val_t atomic_or(atomic_t *target, atomic_val_t value);
-
-#else
-extern atomic_val_t atomic_or(atomic_t *target, atomic_val_t value);
-#endif
 
 /**
  *
@@ -243,27 +191,10 @@ extern atomic_val_t atomic_or(atomic_t *target, atomic_val_t value);
  *
  * @return Previous value of @a target.
  */
-#ifdef CONFIG_ATOMIC_OPERATIONS_BUILTIN
 static inline atomic_val_t atomic_and(atomic_t *target, atomic_val_t value)
 {
-	return __atomic_fetch_and(target, value, __ATOMIC_SEQ_CST);
+	return 0;
 }
-#elif defined(CONFIG_ATOMIC_OPERATIONS_C)
-__syscall atomic_val_t atomic_and(atomic_t *target, atomic_val_t value);
-#else
-extern atomic_val_t atomic_and(atomic_t *target, atomic_val_t value);
-#endif
-
-
-/**
- * @brief Initialize an atomic variable.
- *
- * This macro can be used to initialize an atomic variable. For example,
- * @code atomic_t my_var = ATOMIC_INIT(75); @endcode
- *
- * @param i Value to assign to atomic variable.
- */
-#define ATOMIC_INIT(i) (i)
 
 /**
  * @cond INTERNAL_HIDDEN
@@ -306,9 +237,7 @@ extern atomic_val_t atomic_and(atomic_t *target, atomic_val_t value);
  */
 static inline bool atomic_test_bit(const atomic_t *target, int bit)
 {
-	atomic_val_t val = atomic_get(ATOMIC_ELEM(target, bit));
-
-	return (1 & (val >> (bit & (ATOMIC_BITS - 1)))) != 0;
+	return false;
 }
 
 /**
@@ -324,12 +253,7 @@ static inline bool atomic_test_bit(const atomic_t *target, int bit)
  */
 static inline bool atomic_test_and_clear_bit(atomic_t *target, int bit)
 {
-	atomic_val_t mask = ATOMIC_MASK(bit);
-	atomic_val_t old;
-
-	old = atomic_and(ATOMIC_ELEM(target, bit), ~mask);
-
-	return (old & mask) != 0;
+	return false;
 }
 
 /**
@@ -345,12 +269,7 @@ static inline bool atomic_test_and_clear_bit(atomic_t *target, int bit)
  */
 static inline bool atomic_test_and_set_bit(atomic_t *target, int bit)
 {
-	atomic_val_t mask = ATOMIC_MASK(bit);
-	atomic_val_t old;
-
-	old = atomic_or(ATOMIC_ELEM(target, bit), mask);
-
-	return (old & mask) != 0;
+	return false;
 }
 
 /**
@@ -366,9 +285,6 @@ static inline bool atomic_test_and_set_bit(atomic_t *target, int bit)
  */
 static inline void atomic_clear_bit(atomic_t *target, int bit)
 {
-	atomic_val_t mask = ATOMIC_MASK(bit);
-
-	(void)atomic_and(ATOMIC_ELEM(target, bit), ~mask);
 }
 
 /**
@@ -384,9 +300,6 @@ static inline void atomic_clear_bit(atomic_t *target, int bit)
  */
 static inline void atomic_set_bit(atomic_t *target, int bit)
 {
-	atomic_val_t mask = ATOMIC_MASK(bit);
-
-	(void)atomic_or(ATOMIC_ELEM(target, bit), mask);
 }
 
 /**
@@ -403,13 +316,6 @@ static inline void atomic_set_bit(atomic_t *target, int bit)
  */
 static inline void atomic_set_bit_to(atomic_t *target, int bit, bool val)
 {
-	atomic_val_t mask = ATOMIC_MASK(bit);
-
-	if (val) {
-		(void)atomic_or(ATOMIC_ELEM(target, bit), mask);
-	} else {
-		(void)atomic_and(ATOMIC_ELEM(target, bit), ~mask);
-	}
 }
 
 /**
@@ -418,10 +324,6 @@ static inline void atomic_set_bit_to(atomic_t *target, int bit, bool val)
 
 #ifdef __cplusplus
 }
-#endif
-
-#ifdef CONFIG_ATOMIC_OPERATIONS_C
-#include <syscalls/atomic.h>
 #endif
 
 #endif /* ZEPHYR_INCLUDE_SYS_ATOMIC_H_ */

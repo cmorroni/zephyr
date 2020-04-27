@@ -6,7 +6,7 @@
 
 #include <kernel.h>
 #include <kernel_internal.h>
-#include <wait_q.h>
+#include <kernel.h>
 #include <posix/pthread.h>
 
 s64_t timespec_to_timeoutms(const struct timespec *abstime);

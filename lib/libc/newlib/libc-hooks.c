@@ -12,8 +12,6 @@
 #include <sys/util.h>
 #include <sys/errno_private.h>
 #include <sys/libc-hooks.h>
-#include <syscall_handler.h>
-#include <app_memory/app_memdomain.h>
 #include <init.h>
 #include <sys/sem.h>
 

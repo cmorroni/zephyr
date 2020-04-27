@@ -667,7 +667,6 @@ header = """%compare-lengths
 %{
 #include <kernel.h>
 #include <toolchain.h>
-#include <syscall_handler.h>
 #include <string.h>
 %}
 struct z_object;

@@ -38,7 +38,6 @@ extern "C" {
 #include <fsl_common.h>
 #include <device.h>
 #include <sys/util.h>
-#include <random/rand32.h>
 
 #endif /* !_ASMLANGUAGE */
 

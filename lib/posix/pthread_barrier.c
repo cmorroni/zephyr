@@ -7,7 +7,7 @@
 #include <kernel.h>
 #include <posix/pthread.h>
 #include <kernel_internal.h>
-#include <wait_q.h>
+#include <kernel.h>
 
 int pthread_barrier_wait(pthread_barrier_t *b)
 {

@@ -212,8 +212,6 @@ extern unsigned char _irq_to_interrupt_vector[];
 #include <arch/x86/ia32/arch.h>
 #endif
 
-#include <arch/common/ffs.h>
-
 #ifndef _ASMLANGUAGE
 
 extern void arch_irq_enable(unsigned int irq);

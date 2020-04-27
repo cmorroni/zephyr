@@ -5,7 +5,6 @@
  */
 
 #include <sys/sem.h>
-#include <syscall_handler.h>
 
 #ifdef CONFIG_USERSPACE
 #define SYS_SEM_MINIMUM      0

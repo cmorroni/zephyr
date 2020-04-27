@@ -139,8 +139,6 @@ SECTIONS
 
 	} GROUP_LINK_IN(ROMABLE_REGION)
 
-#include <linker/cplusplus-rom.ld>
-
     _image_rodata_end = .;
     _image_rom_end = .;
 
@@ -180,7 +178,6 @@ SECTIONS
 	} GROUP_DATA_LINK_IN(RAMABLE_REGION, ROMABLE_REGION)
 
 #include <linker/common-ram.ld>
-#include <linker/cplusplus-ram.ld>
 
     __data_ram_end = .;
     __data_rom_start = LOADADDR(_DATA_SECTION_NAME);

@@ -15,7 +15,6 @@
 #include <sys/atomic.h>
 #include <ctype.h>
 #include <logging/log_frontend.h>
-#include <syscall_handler.h>
 
 LOG_MODULE_REGISTER(log);
 
@@ -656,10 +655,10 @@ bool z_impl_log_process(bool bypass)
 	if (!backend_attached && !bypass) {
 		return false;
 	}
-	unsigned int key = irq_lock();
+	/* CTM avoiding warning *//*unsigned int key = */irq_lock();
 
 	msg = log_list_head_get(&list);
-	irq_unlock(key);
+	irq_unlock(/*key*/);
 
 	if (msg != NULL) {
 		atomic_dec(&buffered_cnt);

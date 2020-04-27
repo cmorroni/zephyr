@@ -6,8 +6,7 @@
 
 #include <kernel.h>
 #include <kernel_internal.h>
-#include <wait_q.h>
-#include <posix/time.h>
+#include <kernel.h>
 
 #ifdef CONFIG_POSIX_CLOCK
 s64_t timespec_to_timeoutms(const struct timespec *abstime)
