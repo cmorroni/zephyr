@@ -19,8 +19,6 @@ source "drivers/timer/Kconfig"
 
 source "drivers/gpio/Kconfig"
 
-source "drivers/interrupt_controller/Kconfig.shared_irq"
-
 source "drivers/i2c/Kconfig"
 
 source "drivers/flash/Kconfig"
