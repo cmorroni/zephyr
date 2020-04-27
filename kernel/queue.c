@@ -4,19 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/**
- * @file
- *
- * @brief dynamic-size QUEUE object.
- */
-
-
 #include <kernel.h>
-
-void *z_queue_node_peek(sys_sfnode_t *node, bool needs_free)
-{
-	return NULL;
-}
 
 void z_impl_k_queue_init(struct k_queue *queue)
 {

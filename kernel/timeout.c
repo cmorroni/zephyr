@@ -8,23 +8,9 @@
 
 int z_clock_hw_cycles_per_sec = CONFIG_SYS_CLOCK_HW_CYCLES_PER_SEC;
 
-void z_add_timeout(struct _timeout *to, _timeout_func_t fn,
-		   k_timeout_t timeout)
-{
-}
-
-int z_abort_timeout(struct _timeout *to)
-{
-	return 0;
-}
-
 k_ticks_t z_timeout_remaining(struct _timeout *timeout)
 {
 	return 0;
-}
-
-void z_clock_announce(s32_t ticks)
-{
 }
 
 s64_t z_tick_get(void)

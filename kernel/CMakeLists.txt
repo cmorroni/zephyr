@@ -6,11 +6,8 @@ add_library(kernel
   device.c
   errno.c
   fatal.c
-  idle.c
   init.c
-  kheap.c
   mem_slab.c
-  mempool.c
   msg_q.c
   mutex.c
   queue.c

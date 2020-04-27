@@ -4,19 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/**
- * @file
- * @brief Kernel thread support
- *
- * This module provides general purpose thread support.
- */
-
 #include <kernel.h>
-
-bool k_is_in_isr(void)
-{
-	return true;
-}
 
 void z_impl_k_busy_wait(u32_t usec_to_wait)
 {
@@ -35,27 +23,3 @@ k_tid_t z_impl_k_thread_create(struct k_thread *new_thread,
 {
 	return NULL;
 }
-
-void z_init_thread_base(struct _thread_base *thread_base, int priority,
-		       u32_t initial_state, unsigned int options)
-{
-}
-
-/* These spinlock assertion predicates are defined here because having
- * them in spinlock.h is a giant header ordering headache.
- */
-#ifdef CONFIG_SPIN_VALIDATE
-bool z_spin_lock_valid(struct k_spinlock *l)
-{
-	return true;
-}
-
-bool z_spin_unlock_valid(struct k_spinlock *l)
-{
-	return true;
-}
-
-void z_spin_lock_set_owner(struct k_spinlock *l)
-{
-}
-#endif /* CONFIG_SPIN_VALIDATE */

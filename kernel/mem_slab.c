@@ -6,12 +6,6 @@
 
 #include <kernel.h>
 
-int k_mem_slab_init(struct k_mem_slab *slab, void *buffer,
-		    size_t block_size, u32_t num_blocks)
-{
-	return 0;
-}
-
 int k_mem_slab_alloc(struct k_mem_slab *slab, void **mem, k_timeout_t timeout)
 {
 	return 0;

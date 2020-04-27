@@ -11,12 +11,3 @@ void k_timer_init(struct k_timer *timer,
 			 k_timer_stop_t stop_fn)
 {
 }
-
-void z_impl_k_timer_start(struct k_timer *timer, k_timeout_t duration,
-			  k_timeout_t period)
-{
-}
-
-void z_impl_k_timer_stop(struct k_timer *timer)
-{
-}

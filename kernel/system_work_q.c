@@ -5,12 +5,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/**
- * @file
- *
- * System workqueue.
- */
-
 #include <kernel.h>
 
 struct k_work_q k_sys_work_q;

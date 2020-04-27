@@ -5,12 +5,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/**
- * @file
- *
- * Workqueue support functions
- */
-
 #include <kernel.h>
 
 void k_delayed_work_init(struct k_delayed_work *work, k_work_handler_t handler)

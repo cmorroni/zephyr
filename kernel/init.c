@@ -4,19 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/**
- * @file
- * @brief Kernel initialization module
- *
- * This module contains routines that are used to initialize the kernel.
- */
-
 #include <kernel.h>
 
 #include <logging/log.h>
 LOG_MODULE_REGISTER(os);
-
-struct k_thread z_idle_threads[CONFIG_MP_NUM_CPUS];
 
 /*
  * storage space for the interrupt stack
