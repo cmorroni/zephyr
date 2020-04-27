@@ -10,16 +10,7 @@
  *
  */
 
-#include <sys/__assert.h>
 #include <kernel.h>
-#include <arch/cpu.h>
-#include <drivers/interrupt_controller/ioapic.h>
-#include <drivers/interrupt_controller/loapic.h>
-#include <drivers/interrupt_controller/sysapic.h>
-#include <irq.h>
-
-#define IS_IOAPIC_IRQ(irq)  (irq < LOAPIC_IRQ_BASE)
-#define HARDWARE_IRQ_LIMIT ((LOAPIC_IRQ_BASE + LOAPIC_IRQ_COUNT) - 1)
 
 /**
  *
@@ -46,13 +37,6 @@
 void z_irq_controller_irq_config(unsigned int vector, unsigned int irq,
 				 u32_t flags)
 {
-	__ASSERT(irq <= HARDWARE_IRQ_LIMIT, "invalid irq line");
-
-	if (IS_IOAPIC_IRQ(irq)) {
-		z_ioapic_irq_set(irq, vector, flags);
-	} else {
-		z_loapic_int_vec_set(irq - LOAPIC_IRQ_BASE, vector);
-	}
 }
 
 /**
@@ -74,29 +58,4 @@ void z_irq_controller_irq_config(unsigned int vector, unsigned int irq,
  */
 void arch_irq_enable(unsigned int irq)
 {
-	if (IS_IOAPIC_IRQ(irq)) {
-		z_ioapic_irq_enable(irq);
-	} else {
-		z_loapic_irq_enable(irq - LOAPIC_IRQ_BASE);
-	}
-}
-
-/**
- *
- * @brief Disable an individual interrupt (IRQ)
- *
- * The irq_disable() routine is provided by the interrupt controller driver due
- * to the IRQ virtualization that is performed by this platform.  See the
- * comments in _interrupt_vector_allocate() for more information regarding IRQ
- * virtualization.
- *
- * @return N/A
- */
-void arch_irq_disable(unsigned int irq)
-{
-	if (IS_IOAPIC_IRQ(irq)) {
-		z_ioapic_irq_disable(irq);
-	} else {
-		z_loapic_irq_disable(irq - LOAPIC_IRQ_BASE);
-	}
 }

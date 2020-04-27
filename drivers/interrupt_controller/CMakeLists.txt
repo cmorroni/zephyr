@@ -2,7 +2,6 @@
 
 zephyr_sources_ifdef(CONFIG_ARCV2_INTERRUPT_UNIT    intc_arcv2_irq_unit.c)
 zephyr_sources_ifdef(CONFIG_GIC                     intc_gic.c)
-zephyr_sources_ifdef(CONFIG_IOAPIC                  intc_ioapic.c)
 zephyr_sources_ifdef(CONFIG_LOAPIC                  intc_loapic.c intc_system_apic.c)
 zephyr_sources_ifdef(CONFIG_LOAPIC_SPURIOUS_VECTOR  intc_loapic_spurious.S)
 zephyr_sources_ifdef(CONFIG_PLIC                    intc_plic.c)
