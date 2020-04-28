@@ -932,9 +932,6 @@ zephyr_compile_options(
   $<$<COMPILE_LANGUAGE:C>:${CC_CSTD}>
 )
 
-# @Intent: Configure linker scripts, i.e. generate linker scripts with variables substituted
-toolchain_ld_configure_files()
-
 if(CONFIG_USERSPACE)
   set(APP_SMEM_ALIGNED_LD "${PROJECT_BINARY_DIR}/include/generated/app_smem_aligned.ld")
   set(APP_SMEM_UNALIGNED_LD "${PROJECT_BINARY_DIR}/include/generated/app_smem_unaligned.ld")

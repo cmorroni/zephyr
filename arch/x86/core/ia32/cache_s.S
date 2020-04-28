@@ -45,7 +45,7 @@ SECTION_FUNC(TEXT, z_is_clflush_available)
  *
  * C signature:
  *
- *   void sys_cache_flush (vaddr_t virt, size_t size)
+ *   void sys_cache_flush (unsigned int virt, size_t size)
  *
  * Both parameters are ignored in this implementation.
  *
