@@ -9,18 +9,16 @@ source "drivers/bluetooth/Kconfig"
 
 source "drivers/console/Kconfig"
 
-source "drivers/debug/Kconfig"
-
 source "drivers/serial/Kconfig"
 
 source "drivers/interrupt_controller/Kconfig"
 
 source "drivers/timer/Kconfig"
 
-source "drivers/gpio/Kconfig"
-
-source "drivers/i2c/Kconfig"
-
 source "drivers/flash/Kconfig"
+
+config SEGGER_RTT_MAX_NUM_UP_BUFFERS
+	int "Maximum number of up-buffers"
+	default 3
 
 endmenu
