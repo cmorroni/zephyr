@@ -31,63 +31,14 @@ typedef struct k_spinlock_key k_spinlock_key_t;
 
 static ALWAYS_INLINE k_spinlock_key_t k_spin_lock(struct k_spinlock *l)
 {
-	ARG_UNUSED(l);
-	k_spinlock_key_t k;
-
-	/* Note that we need to use the underlying arch-specific lock
-	 * implementation.  The "irq_lock()" API in SMP context is
-	 * actually a wrapper for a global spinlock!
-	 */
-	k.key = arch_irq_lock();
-
-#ifdef CONFIG_SPIN_VALIDATE
-	__ASSERT(z_spin_lock_valid(l), "Recursive spinlock %p", l);
-#endif
-
-#ifdef CONFIG_SMP
-	while (!atomic_cas(&l->locked, 0, 1)) {
-	}
-#endif
-
-#ifdef CONFIG_SPIN_VALIDATE
-	z_spin_lock_set_owner(l);
-#endif
-	return k;
+	k_spinlock_key_t ret;
+	ret.key = 0;
+	return ret;
 }
 
 static ALWAYS_INLINE void k_spin_unlock(struct k_spinlock *l,
 					k_spinlock_key_t key)
 {
-	ARG_UNUSED(l);
-#ifdef CONFIG_SPIN_VALIDATE
-	__ASSERT(z_spin_unlock_valid(l), "Not my spinlock %p", l);
-#endif
-
-#ifdef CONFIG_SMP
-	/* Strictly we don't need atomic_clear() here (which is an
-	 * exchange operation that returns the old value).  We are always
-	 * setting a zero and (because we hold the lock) know the existing
-	 * state won't change due to a race.  But some architectures need
-	 * a memory barrier when used like this, and we don't have a
-	 * Zephyr framework for that.
-	 */
-	atomic_clear(&l->locked);
-#endif
-	arch_irq_unlock(key.key);
-}
-
-/* Internal function: releases the lock, but leaves local interrupts
- * disabled
- */
-static ALWAYS_INLINE void k_spin_release(struct k_spinlock *l)
-{
-	ARG_UNUSED(l);
-#ifdef CONFIG_SPIN_VALIDATE
-	__ASSERT(z_spin_unlock_valid(l), "Not my spinlock %p", l);
-#endif
-#ifdef CONFIG_SMP
-	atomic_clear(&l->locked);
-#endif
 }
 
 
