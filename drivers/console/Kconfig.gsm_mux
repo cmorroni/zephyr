@@ -103,7 +103,6 @@ module = GSM_MUX
 module-dep = LOG
 module-str = Log level for GSM 07.10 Mux driver
 module-help = Sets log level for GSM 07.10 Mux Device Driver.
-source "subsys/net/Kconfig.template.log_config.net"
 
 config GSM_MUX_VERBOSE_DEBUG
 	bool "Print hexdump of sent and received packets"

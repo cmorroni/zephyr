@@ -17,7 +17,10 @@ if(CONFIG_FILE_SYSTEM)
 endif()
 
 add_subdirectory_ifdef(CONFIG_FCB  ./fcb)
-add_subdirectory_ifdef(CONFIG_NVS  ./nvs)
+
+if(CONFIG_NVS)
+  zephyr_sources(nvs.c)
+endif()
 
 if(CONFIG_FUSE_FS_ACCESS)
   zephyr_library_named(FS_FUSE)

@@ -13,5 +13,3 @@ if(CONFIG_NETWORKING)
     add_subdirectory(ip)
   endif()
 endif()
-
-add_subdirectory(lib)

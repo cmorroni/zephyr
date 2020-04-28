@@ -5,8 +5,6 @@
 
 source "subsys/bluetooth/Kconfig"
 
-source "subsys/debug/Kconfig"
-
 source "subsys/fs/Kconfig"
 
 source "subsys/logging/Kconfig"
@@ -15,12 +13,70 @@ source "subsys/net/Kconfig"
 
 source "subsys/shell/Kconfig"
 
-source "subsys/random/Kconfig"
-
 source "subsys/storage/Kconfig"
 
 source "subsys/settings/Kconfig"
 
-source "subsys/testsuite/Kconfig"
+config PRINTK
+	bool "Send printk() to console"
+	default y
+	help
+	  This option directs printk() debugging output to the supported
+	  console device, rather than suppressing the generation
+	  of printk() output entirely. Output is sent immediately, without
+	  any mutual exclusion or buffering.
 
-source "subsys/tracing/Kconfig"
+#
+# Generic Debugging Options
+#
+config DEBUG_INFO
+	bool "Enable system debugging information"
+	help
+	  This option enables the addition of various information that can be
+	  used by debuggers in debugging the system, or enable additional
+	  debugging information to be reported at runtime.
+      
+config TEST_RANDOM_GENERATOR
+	bool "Non-random number generator"
+	depends on !ENTROPY_HAS_DRIVER
+	help
+	  This option signifies that the kernel's random number APIs are
+	  permitted to return values that are not truly random.
+	  This capability is provided for testing purposes, when a truly random
+	  number generator is not available. The non-random number generator
+	  should not be used in a production environment.
+
+
+menu "Testing"
+
+config TEST
+	bool "Mark project as a test"
+	# For tests, store thread names in binary and dump them on crash to
+	# ease debugging.
+	select THREAD_NAME
+	help
+	  Mark a project or an application as a test. This will enable a few
+	  test defaults.
+
+config TEST_EXTRA_STACKSIZE
+	int "Test function extra thread stack size"
+	default 2048 if COVERAGE_GCOV
+	default 768 if XTENSA
+	default 0
+	help
+	  Additional stack for tests on some platform where default is not
+	  enough.
+
+config TEST_LOGGING_DEFAULTS
+	bool "Enable test case logging defaults"
+	depends on TEST
+	select LOG
+	select LOG_MINIMAL
+	default y
+	help
+	  Option which implements default policy of enabling logging in
+	  minimal mode for all test cases. For tests that need alternate
+	  logging configuration, or no logging at all, disable this
+	  in the project-level defconfig.
+
+endmenu

@@ -131,11 +131,19 @@ config FS_FATFS_CODEPAGE
 
 endmenu
 
-source "subsys/fs/Kconfig.littlefs"
-
 endif # FILE_SYSTEM
 
-source "subsys/fs/fcb/Kconfig"
-source "subsys/fs/nvs/Kconfig"
+config NVS
+	bool "Non-volatile Storage"
+	help
+	  Enable support of Non-volatile Storage.
+
+if NVS
+
+module = NVS
+module-str = nvs
+source "subsys/logging/Kconfig.template.log_config"
+
+endif # NVS
 
 endmenu

@@ -81,14 +81,36 @@ config NET_POWER_MANAGEMENT
 	default n
 	depends on DEVICE_POWER_MANAGEMENT
 
-source "subsys/net/Kconfig.hostname"
-
-source "subsys/net/l2/Kconfig"
-
-source "subsys/net/ip/Kconfig"
-
-source "subsys/net/lib/Kconfig"
-
 endif
+
+endmenu
+
+
+
+menu "IP stack"
+
+config NET_MAX_CONTEXTS
+	int "Number of network contexts to allocate"
+	default 6
+	help
+	  Each network context is used to describe a network 5-tuple that
+	  is used when listening or sending network traffic. This is very
+	  similar as one could call a network socket in some other systems.
+
+config NET_BUF_RX_COUNT
+	int "How many network buffers are allocated for receiving data"
+	default 36 if NET_L2_ETHERNET
+	default 16
+	help
+	  Each data buffer will occupy CONFIG_NET_BUF_DATA_SIZE + smallish
+	  header (sizeof(struct net_buf)) amount of data.
+
+config NET_BUF_TX_COUNT
+	int "How many network buffers are allocated for sending data"
+	default 36 if NET_L2_ETHERNET
+	default 16
+	help
+	  Each data buffer will occupy CONFIG_NET_BUF_DATA_SIZE + smallish
+	  header (sizeof(struct net_buf)) amount of data.
 
 endmenu
