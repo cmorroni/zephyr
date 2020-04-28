@@ -447,8 +447,6 @@ include(misc/generated/CMakeLists.txt)
 
 if(EXISTS ${SOC_DIR}/${ARCH}/CMakeLists.txt)
   add_subdirectory(${SOC_DIR}/${ARCH} soc/${ARCH})
-else()
-  add_subdirectory(${SOC_DIR}/${ARCH}/${SOC_PATH} soc/${ARCH}/${SOC_PATH})
 endif()
 
 add_subdirectory(boards)

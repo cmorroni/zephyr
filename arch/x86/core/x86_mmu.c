@@ -18,7 +18,7 @@ LOG_MODULE_DECLARE(os);
 /* Despite our use of PAE page tables, we do not (and will never) actually
  * support PAE. Use a 64-bit x86 target if you have that much RAM.
  */
-BUILD_ASSERT(DT_PHYS_RAM_ADDR + (DT_RAM_SIZE * 1024ULL) - 1ULL <=
+BUILD_ASSERT(CONFIG_SRAM_BASE_ADDRESS + (CONFIG_SRAM_SIZE * 1024ULL) - 1ULL <=
 				 (unsigned long long)UINTPTR_MAX);
 
 /* Common regions for all x86 processors.
@@ -665,10 +665,10 @@ static inline bool is_within_system_ram(uintptr_t addr)
 {
 #ifdef CONFIG_X86_64
 	/* FIXME: locore not included in CONFIG_SRAM_BASE_ADDRESS */
-	return addr < (DT_PHYS_RAM_ADDR + (DT_RAM_SIZE * 1024U));
+	return addr < (CONFIG_SRAM_BASE_ADDRESS + (CONFIG_SRAM_SIZE * 1024U));
 #else
-	return (addr >= DT_PHYS_RAM_ADDR) &&
-		(addr < (DT_PHYS_RAM_ADDR + (DT_RAM_SIZE * 1024U)));
+	return (addr >= CONFIG_SRAM_BASE_ADDRESS) &&
+		(addr < (CONFIG_SRAM_BASE_ADDRESS + (CONFIG_SRAM_SIZE * 1024U)));
 #endif
 }
 
@@ -1069,15 +1069,15 @@ static void apply_mem_partition(struct x86_page_tables *ptables,
 		mask = K_MEM_PARTITION_PERM_MASK;
 	}
 
-	__ASSERT(partition->start >= DT_PHYS_RAM_ADDR,
+	__ASSERT(partition->start >= CONFIG_SRAM_BASE_ADDRESS,
 		 "region at %08lx[%zu] extends below system ram start 0x%08x",
-		 partition->start, partition->size, DT_PHYS_RAM_ADDR);
+		 partition->start, partition->size, CONFIG_SRAM_BASE_ADDRESS);
 	__ASSERT(((partition->start + partition->size) <=
-		  (DT_PHYS_RAM_ADDR + (DT_RAM_SIZE * 1024U))),
+		  (CONFIG_SRAM_BASE_ADDRESS + (CONFIG_SRAM_SIZE * 1024U))),
 		 "region at %08lx[%zu] end at %08lx extends beyond system ram end 0x%08x",
 		 partition->start, partition->size,
 		 partition->start + partition->size,
-		 (DT_PHYS_RAM_ADDR + (DT_RAM_SIZE * 1024U)));
+		 (CONFIG_SRAM_BASE_ADDRESS + (CONFIG_SRAM_SIZE * 1024U)));
 
 	z_x86_mmu_set_flags(ptables, (void *)partition->start, partition->size,
 			    x86_attr, mask, false);
