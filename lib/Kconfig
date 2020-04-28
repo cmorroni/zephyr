@@ -9,6 +9,4 @@ source "lib/fnmatch/Kconfig"
 
 source "lib/os/Kconfig"
 
-source "lib/posix/Kconfig"
-
 endmenu
