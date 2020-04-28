@@ -173,40 +173,9 @@ typedef struct s_isrList {
  * 4. z_irq_controller_irq_config() is called at runtime to set the mapping
  * between the vector and the IRQ line as well as triggering flags
  */
-#define ARCH_IRQ_CONNECT(irq_p, priority_p, isr_p, isr_param_p, flags_p) \
-{ \
-	__asm__ __volatile__(							\
-		".pushsection .intList\n\t" \
-		".long %c[isr]_irq%c[irq]_stub\n\t"	/* ISR_LIST.fnc */ \
-		".long %c[irq]\n\t"		/* ISR_LIST.irq */ \
-		".long %c[priority]\n\t"	/* ISR_LIST.priority */ \
-		".long %c[vector]\n\t"		/* ISR_LIST.vec */ \
-		".long 0\n\t"			/* ISR_LIST.dpl */ \
-		".long 0\n\t"			/* ISR_LIST.tss */ \
-		".popsection\n\t" \
-		".pushsection .text.irqstubs\n\t" \
-		".global %c[isr]_irq%c[irq]_stub\n\t" \
-		"%c[isr]_irq%c[irq]_stub:\n\t" \
-		"pushl %[isr_param]\n\t" \
-		"pushl %[isr]\n\t" \
-		"jmp _interrupt_enter\n\t" \
-		".popsection\n\t" \
-		: \
-		: [isr] "i" (isr_p), \
-		  [isr_param] "i" (isr_param_p), \
-		  [priority] "i" (priority_p), \
-		  [vector] "i" _VECTOR_ARG(irq_p), \
-		  [irq] "i" (irq_p)); \
-	z_irq_controller_irq_config(Z_IRQ_TO_INTERRUPT_VECTOR(irq_p), (irq_p), \
-				   (flags_p)); \
-}
+#define ARCH_IRQ_CONNECT(irq_p, priority_p, isr_p, isr_param_p, flags_p) {}
 
-#define ARCH_IRQ_DIRECT_CONNECT(irq_p, priority_p, isr_p, flags_p) \
-{ \
-	NANO_CPU_INT_REGISTER(isr_p, irq_p, priority_p, -1, 0); \
-	z_irq_controller_irq_config(Z_IRQ_TO_INTERRUPT_VECTOR(irq_p), (irq_p), \
-				   (flags_p)); \
-}
+#define ARCH_IRQ_DIRECT_CONNECT(irq_p, priority_p, isr_p, flags_p) {}
 
 #ifdef CONFIG_SYS_POWER_MANAGEMENT
 /*
@@ -262,33 +231,6 @@ extern void arch_isr_direct_footer_swap(unsigned int key);
 
 static inline void arch_isr_direct_footer(int swap)
 {
-	z_irq_controller_eoi();
-#if defined(CONFIG_TRACING)
-	sys_trace_isr_exit();
-#endif
-	--_kernel.nested;
-
-	/* Call swap if all the following is true:
-	 *
-	 * 1) swap argument was enabled to this function
-	 * 2) We are not in a nested interrupt
-	 * 3) Next thread to run in the ready queue is not this thread
-	 */
-	if (swap != 0 && _kernel.nested == 0 &&
-	    _kernel.ready_q.cache != _current) {
-		unsigned int flags;
-
-		/* Fetch EFLAGS argument to z_swap() */
-		__asm__ volatile (
-			"pushfl\n\t"
-			"popl %0\n\t"
-			: "=g" (flags)
-			:
-			: "memory"
-			);
-
-		arch_isr_direct_footer_swap(flags);
-	}
 }
 
 #define ARCH_ISR_DIRECT_DECLARE(name) \

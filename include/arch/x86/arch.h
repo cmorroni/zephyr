@@ -204,8 +204,6 @@ extern unsigned char _irq_to_interrupt_vector[];
 
 #endif /* _ASMLANGUAGE */
 
-#include <drivers/interrupt_controller/sysapic.h>
-
 #ifdef CONFIG_X86_64
 #include <arch/x86/intel64/arch.h>
 #else
@@ -214,7 +212,6 @@ extern unsigned char _irq_to_interrupt_vector[];
 
 #ifndef _ASMLANGUAGE
 
-extern void arch_irq_enable(unsigned int irq);
 extern void arch_irq_disable(unsigned int irq);
 
 extern u32_t z_timer_cycle_get_32(void);

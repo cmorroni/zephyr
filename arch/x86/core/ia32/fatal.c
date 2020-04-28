@@ -11,7 +11,6 @@
 
 #include <kernel.h>
 #include <kernel_internal.h>
-#include <drivers/interrupt_controller/sysapic.h>
 #include <arch/x86/ia32/segmentation.h>
 #include <ia32/exception.h>
 #include <inttypes.h>
@@ -22,13 +21,6 @@ __weak void z_debug_fatal_hook(const z_arch_esf_t *esf) { ARG_UNUSED(esf); }
 
 void z_x86_spurious_irq(const z_arch_esf_t *esf)
 {
-	int vector = z_irq_controller_isr_vector_get();
-
-	if (vector >= 0) {
-		LOG_ERR("IRQ vector: %d", vector);
-	}
-
-	z_x86_fatal_error(K_ERR_SPURIOUS_IRQ, esf);
 }
 
 void arch_syscall_oops(void *ssf_ptr)

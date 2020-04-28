@@ -7,7 +7,6 @@
 #include <kernel_internal.h>
 #include <arch/cpu.h>
 #include <kernel_arch_data.h>
-#include <drivers/interrupt_controller/sysapic.h>
 #include <drivers/interrupt_controller/loapic.h>
 #include <irq.h>
 
@@ -72,23 +71,7 @@ static int allocate_vector(unsigned int priority)
 int arch_irq_connect_dynamic(unsigned int irq, unsigned int priority,
 		void (*func)(void *arg), void *arg, u32_t flags)
 {
-	u32_t key;
-	int vector;
-
-	__ASSERT(irq <= CONFIG_MAX_IRQ_LINES, "IRQ %u out of range", irq);
-
-	key = irq_lock();
-
-	vector = allocate_vector(priority);
-	if (vector >= 0) {
-		_irq_to_interrupt_vector[irq] = vector;
-		z_irq_controller_irq_config(vector, irq, flags);
-		x86_irq_funcs[vector - IV_IRQS] = func;
-		x86_irq_args[vector - IV_IRQS] = arg;
-	}
-
-	irq_unlock(key);
-	return vector;
+	return 0;
 }
 
 #ifdef CONFIG_IRQ_OFFLOAD
