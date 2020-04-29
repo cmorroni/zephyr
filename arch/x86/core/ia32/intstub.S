@@ -17,6 +17,7 @@
 #include <arch/x86/ia32/asm.h>
 #include <offsets_short.h>
 #include <arch/cpu.h>
+#include <drivers/interrupt_controller/sysapic.h>
 
 	/* exports (internal APIs) */
 

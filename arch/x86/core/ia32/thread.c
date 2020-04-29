@@ -13,7 +13,7 @@
  */
 
 #include <kernel.h>
-#include <kernel_internal.h>
+
 #include <arch/x86/mmustructs.h>
 
 /* forward declaration */
@@ -70,7 +70,7 @@ void arch_new_thread(struct k_thread *thread, k_thread_stack_t *stack,
 	struct _x86_initial_frame *initial_frame;
 
 	stack_buf = Z_THREAD_STACK_BUFFER(stack);
-	z_new_thread_init(thread, stack_buf, stack_size);
+	//z_new_thread_init(thread, stack_buf, stack_size);
 
 #if CONFIG_X86_STACK_PROTECTION
 	struct z_x86_thread_stack_header *header =
@@ -85,7 +85,7 @@ void arch_new_thread(struct k_thread *thread, k_thread_stack_t *stack,
 #ifdef CONFIG_USERSPACE
 	swap_entry = z_x86_userspace_prepare_thread(thread);
 #else
-	swap_entry = z_thread_entry;
+	swap_entry = NULL; //z_thread_entry;
 #endif
 
 	stack_high = (char *)Z_STACK_PTR_ALIGN(stack_buf + stack_size);
@@ -98,7 +98,7 @@ void arch_new_thread(struct k_thread *thread, k_thread_stack_t *stack,
 	initial_frame->p1 = parameter1;
 	initial_frame->p2 = parameter2;
 	initial_frame->p3 = parameter3;
-	initial_frame->eflags = EFLAGS_INITIAL;
+	initial_frame->eflags = 0; //EFLAGS_INITIAL;
 #ifdef _THREAD_WRAPPER_REQUIRED
 	initial_frame->edi = (u32_t)swap_entry;
 	initial_frame->thread_entry = z_x86_thread_entry_wrapper;

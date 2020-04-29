@@ -4,6 +4,7 @@
  */
 
 #include <kernel.h>
+#include <arch/x86/acpi.h>
 
 /*
  * Finding and walking the ACPI tables can be time consuming, so we do

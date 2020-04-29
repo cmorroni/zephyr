@@ -14,14 +14,16 @@
 #include <arch/cpu.h>
 #include <sys/util.h>
 #include <toolchain.h>
+#include <cache.h>
 #include <stdbool.h>
+#include <cache.h>
 
 /*
  * these functions are defined in cache_s.S
  */
 
 extern int z_is_clflush_available(void);
-extern void z_cache_flush_wbinvd(unsigned int addr, size_t len);
+extern void z_cache_flush_wbinvd(vaddr_t addr, size_t len);
 extern size_t z_cache_line_size_get(void);
 
 #if defined(CONFIG_CLFLUSH_INSTRUCTION_SUPPORTED) || \

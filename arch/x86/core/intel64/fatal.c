@@ -4,7 +4,6 @@
  */
 
 #include <kernel.h>
-#include <kernel_internal.h>
 #include <kernel_structs.h>
 #include <kernel_internal.h>
 #include <logging/log.h>

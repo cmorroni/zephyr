@@ -105,6 +105,8 @@ SECTIONS
 	KEEP(*(.openocd_dbg))
 	KEEP(*(".openocd_dbg.*"))
 
+#include <linker/kobject-text.ld>
+
 	MMU_PAGE_ALIGN
 	} GROUP_LINK_IN(ROMABLE_REGION)
 
@@ -157,7 +159,11 @@ SECTIONS
 /* Located in project source directory */
 #include <custom-rodata.ld>
 #endif
+
+#include <linker/kobject-rom.ld>
 	} GROUP_LINK_IN(ROMABLE_REGION)
+
+#include <linker/cplusplus-rom.ld>
 
 	MMU_PAGE_ALIGN
 	/* ROM ends here, position counter will now be in RAM areas */
@@ -346,15 +352,18 @@ SECTIONS
 
 #include <linker/common-ram.ld>
 
+#include <linker/kobject.ld>
+#include <linker/cplusplus-ram.ld>
+
 	MMU_PAGE_ALIGN
 	__data_ram_end = .;
 
 	/* All unused memory also owned by the kernel for heaps */
-	__kernel_ram_end = PHYS_RAM_ADDR + KB(CONFIG_SRAM_SIZE);
+	__kernel_ram_end = PHYS_RAM_ADDR + KB(DT_RAM_SIZE);
 	__kernel_ram_size = __kernel_ram_end - __kernel_ram_start;
 
 	_image_ram_end = .;
-	_image_ram_all = (PHYS_RAM_ADDR + KB(CONFIG_SRAM_SIZE)) - _image_ram_start;
+	_image_ram_all = (PHYS_RAM_ADDR + KB(DT_RAM_SIZE)) - _image_ram_start;
 
 	_end = .; /* end of image */
 

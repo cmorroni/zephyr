@@ -70,10 +70,105 @@ struct nvs_fs {
  * @{
  */
 
+/**
+ * @brief nvs_init
+ *
+ * Initializes a NVS file system in flash.
+ *
+ * @param fs Pointer to file system
+ * @param dev_name Pointer to flash device name
+ * @retval 0 Success
+ * @retval -ERRNO errno code if error
+ */
 int nvs_init(struct nvs_fs *fs, const char *dev_name);
+
+/**
+ * @brief nvs_clear
+ *
+ * Clears the NVS file system from flash.
+ * @param fs Pointer to file system
+ * @retval 0 Success
+ * @retval -ERRNO errno code if error
+ */
+int nvs_clear(struct nvs_fs *fs);
+
+/**
+ * @brief nvs_write
+ *
+ * Write an entry to the file system.
+ *
+ * @param fs Pointer to file system
+ * @param id Id of the entry to be written
+ * @param data Pointer to the data to be written
+ * @param len Number of bytes to be written
+ *
+ * @return Number of bytes written. On success, it will be equal to the number
+ * of bytes requested to be written. On error returns -ERRNO code.
+ */
+
 ssize_t nvs_write(struct nvs_fs *fs, u16_t id, const void *data, size_t len);
+
+/**
+ * @brief nvs_delete
+ *
+ * Delete an entry from the file system
+ *
+ * @param fs Pointer to file system
+ * @param id Id of the entry to be deleted
+ * @retval 0 Success
+ * @retval -ERRNO errno code if error
+ */
 int nvs_delete(struct nvs_fs *fs, u16_t id);
+
+/**
+ * @brief nvs_read
+ *
+ * Read an entry from the file system.
+ *
+ * @param fs Pointer to file system
+ * @param id Id of the entry to be read
+ * @param data Pointer to data buffer
+ * @param len Number of bytes to be read
+ *
+ * @return Number of bytes read. On success, it will be equal to the number
+ * of bytes requested to be read. When the return value is larger than the
+ * number of bytes requested to read this indicates not all bytes were read,
+ * and more data is available. On error returns -ERRNO code.
+ */
 ssize_t nvs_read(struct nvs_fs *fs, u16_t id, void *data, size_t len);
+
+/**
+ * @brief nvs_read_hist
+ *
+ * Read a history entry from the file system.
+ *
+ * @param fs Pointer to file system
+ * @param id Id of the entry to be read
+ * @param data Pointer to data buffer
+ * @param len Number of bytes to be read
+ * @param cnt History counter: 0: latest entry, 1:one before latest ...
+ *
+ * @return Number of bytes read. On success, it will be equal to the number
+ * of bytes requested to be read. When the return value is larger than the
+ * number of bytes requested to read this indicates not all bytes were read,
+ * and more data is available. On error returns -ERRNO code.
+ */
+ssize_t nvs_read_hist(struct nvs_fs *fs, u16_t id, void *data, size_t len,
+		  u16_t cnt);
+
+/**
+ * @brief nvs_calc_free_space
+ *
+ * Calculate the available free space in the file system.
+ *
+ * @param fs Pointer to file system
+ *
+ * @return Number of bytes free. On success, it will be equal to the number
+ * of bytes that can still be written to the file system. Calculating the
+ * free space is a time consuming operation, especially on spi flash.
+ * On error returns -ERRNO code.
+ */
+ssize_t nvs_calc_free_space(struct nvs_fs *fs);
 
 /**
  * @}

@@ -46,6 +46,9 @@
 extern "C" {
 #endif
 
+#define SOC_FLASH_0_ID 0	/** device_id for SoC flash memory driver   */
+#define SPI_FLASH_0_ID 1	/** device_id for external SPI flash driver */
+
 /**
  * @brief Structure for store flash partition data
  *
@@ -84,6 +87,77 @@ struct flash_sector {
 int flash_area_open(u8_t id, const struct flash_area **fa);
 
 /**
+ * @brief Close flash_area
+ *
+ * Reserved for future usage and external projects compatibility reason.
+ * Currently is NOP.
+ *
+ * @param[in] fa Flash area to be closed.
+ */
+void flash_area_close(const struct flash_area *fa);
+
+/**
+ * @brief Read flash area data
+ *
+ * Read data from flash area. Area readout boundaries are asserted before read
+ * request. API has the same limitation regard read-block alignment and size
+ * as wrapped flash driver.
+ *
+ * @param[in]  fa  Flash area
+ * @param[in]  off Offset relative from beginning of flash area to read
+ * @param[out] dst Buffer to store read data
+ * @param[in]  len Number of bytes to read
+ *
+ * @return  0 on success, negative errno code on fail.
+ */
+int flash_area_read(const struct flash_area *fa, off_t off, void *dst,
+		    size_t len);
+
+/**
+ * @brief Write data to flash area
+ *
+ * Write data to flash area. Area write boundaries are asserted before write
+ * request. API has the same limitation regard write-block alignment and size
+ * as wrapped flash driver.
+ *
+ * @param[in]  fa  Flash area
+ * @param[in]  off Offset relative from beginning of flash area to read
+ * @param[out] src Buffer with data to be written
+ * @param[in]  len Number of bytes to write
+ *
+ * @return  0 on success, negative errno code on fail.
+ */
+int flash_area_write(const struct flash_area *fa, off_t off, const void *src,
+		     size_t len);
+
+/**
+ * @brief Erase flash area
+ *
+ * Erase given flash area range. Area boundaries are asserted before erase
+ * request. API has the same limitation regard erase-block alignment and size
+ * as wrapped flash driver.
+ *
+ * @param[in] fa  Flash area
+ * @param[in] off Offset relative from beginning of flash area.
+ * @param[in] len Number of bytes to be erase
+ *
+ * @return  0 on success, negative errno code on fail.
+ */
+int flash_area_erase(const struct flash_area *fa, off_t off, size_t len);
+
+/**
+ * @brief Get write block size of the flash area
+ *
+ * Currently write block size might be treated as read block size, although
+ * most of drivers supports unaligned readout.
+ *
+ * @param[in] fa Flash area
+ *
+ * @return Alignment restriction for flash writes in [B].
+ */
+u8_t flash_area_align(const struct flash_area *fa);
+
+/**
  * Retrieve info about sectors within the area.
  *
  * @param[in]  fa_id    Given flash area ID
@@ -97,6 +171,43 @@ int flash_area_open(u8_t id, const struct flash_area **fa);
  */
 int flash_area_get_sectors(int fa_id, u32_t *count,
 			   struct flash_sector *sectors);
+
+/**
+ * Flash map iteration callback
+ *
+ * @param fa flash area
+ * @param user_data User supplied data
+ *
+ */
+typedef void (*flash_area_cb_t)(const struct flash_area *fa,
+				void *user_data);
+
+/**
+ * Iterate over flash map
+ *
+ * @param user_cb User callback
+ * @param user_data User supplied data
+ */
+void flash_area_foreach(flash_area_cb_t user_cb, void *user_data);
+
+/**
+ * Check whether given flash area has supporting flash driver
+ * in the system.
+ *
+ * @param[in] fa Flash area.
+ *
+ * @return 1 On success. -ENODEV if no driver match.
+ */
+int flash_area_has_driver(const struct flash_area *fa);
+
+/**
+ * Get driver for given flash area.
+ *
+ * @param fa Flash area.
+ *
+ * @return device driver.
+ */
+struct device *flash_area_get_device(const struct flash_area *fa);
 
 #ifdef __cplusplus
 }

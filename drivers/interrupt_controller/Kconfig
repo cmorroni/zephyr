@@ -39,6 +39,20 @@ config VEXRISCV_LITEX_IRQ
 	help
 	  IRQ implementation for LiteX VexRiscv
 
+source "drivers/interrupt_controller/Kconfig.multilevel"
+
 source "drivers/interrupt_controller/Kconfig.loapic"
+
+source "drivers/interrupt_controller/Kconfig.dw"
+
+source "drivers/interrupt_controller/Kconfig.stm32"
+
+source "drivers/interrupt_controller/Kconfig.cavs"
+
+source "drivers/interrupt_controller/Kconfig.rv32m1"
+
+source "drivers/interrupt_controller/Kconfig.sam0"
+
+source "drivers/interrupt_controller/Kconfig.gic"
 
 endmenu

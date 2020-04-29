@@ -6,8 +6,9 @@
 
 #include <kernel.h>
 #include <sys/speculation.h>
+#include <syscall_handler.h>
 #include <kernel_arch_func.h>
-#include <kernel_internal.h>
+
 
 #ifndef CONFIG_X86_KPTI
 /* Change to new set of page tables. ONLY intended for use from
